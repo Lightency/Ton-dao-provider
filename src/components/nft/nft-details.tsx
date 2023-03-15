@@ -16,8 +16,6 @@ import NftDropDown from './nft-dropdown';
 import Avatar from '@/components/ui/avatar';
 import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo } from 'next-seo';
-import type { NextPageWithLayout } from '@/types';
-import DashboardLayout from '@/layouts/_dashboard';
 import DaoList from '@/components/dao/dao-list';
 import { getVotesByStatus } from '@/data/static/vote-data';
 import routes from '@/config/routes';
@@ -25,6 +23,9 @@ import { ExportIcon } from '@/components/icons/export-icon';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { WalletContext } from '@/lib/hooks/use-connect';
+import votePool from '@/assets/images/vote-pool.svg';
+import { daos } from '@/data/static/dao-data';
+
 interface NftFooterProps {
   className?: string;
   currentBid: any;
@@ -128,27 +129,52 @@ export default function NftDetails({ product }: { product: NftDetailsProps }) {
   const router = useRouter();
   const { totalVote: totalActiveVote } = getVotesByStatus('active');
 
-  function goToCreateProposalPage() {
+  function goToCreateDAOPage() {
     setTimeout(() => {
-      router.push(routes.createProposal);
+      router.push(routes.createNft);
     }, 800);
   }
   return (
     <>
       <NextSeo
-        title="Proposal"
+        title="DAO's"
         description="Criptic - React Next Web3 NFT Crypto Dashboard Template"
       />
       <section className="mx-auto w-full max-w-[1160px] text-sm sm:pt-10 4xl:pt-14">
+        <header className="mb-8 flex flex-col gap-4 rounded-lg bg-white p-5 py-6 shadow-card dark:bg-light-dark xs:p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-4 xs:items-center xs:gap-3 xl:gap-4">
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gray-100 dark:bg-dark">
+              <Image alt="Vote Pool" src={votePool} width={32} height={32} />
+            </div>
+            <div>
+              <h2 className="mb-2 text-base font-medium uppercase dark:text-gray-100 xl:text-lg">
+                You have {daos.length} DAO's
+              </h2>
+              <p className="leading-relaxed text-gray-600 dark:text-gray-400">
+                You need CRIPTIC or CRIPTIC tokens to participate in governance.
+              </p>
+            </div>
+          </div>
+          <div className="shrink-0">
+            <Button
+              shape="rounded"
+              fullWidth={true}
+              className="uppercase"
+              onClick={() => goToCreateDAOPage()}
+            >
+              Create DAO
+            </Button>
+          </div>
+        </header>
         <ParamTab
           tabMenu={[
             {
               title: (
                 <>
                   ALL my DAO's{' '}
-                  {totalActiveVote > 0 && (
+                  {daos.length > 0 && (
                     <span className="ltr:ml-0.5 rtl:mr-0.5 ltr:md:ml-1.5 rtl:md:mr-1.5 ltr:lg:ml-2 rtl:lg:mr-2">
-                      {totalActiveVote}
+                      {daos.length}
                     </span>
                   )}
                 </>
