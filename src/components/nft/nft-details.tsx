@@ -18,7 +18,7 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo } from 'next-seo';
 import type { NextPageWithLayout } from '@/types';
 import DashboardLayout from '@/layouts/_dashboard';
-import VoteList from '@/components/vote/vote-list';
+import DaoList from '@/components/dao/dao-list';
 import { getVotesByStatus } from '@/data/static/vote-data';
 import routes from '@/config/routes';
 import { ExportIcon } from '@/components/icons/export-icon';
@@ -123,92 +123,84 @@ type NftDetailsProps = {
 };
 
 export default function NftDetails({ product }: { product: NftDetailsProps }) {
-
   const { address, disconnectWallet, balance } = useContext(WalletContext);
 
   const router = useRouter();
-const { totalVote: totalActiveVote } = getVotesByStatus('active');
+  const { totalVote: totalActiveVote } = getVotesByStatus('active');
 
-function goToCreateProposalPage() {
-  setTimeout(() => {
-    router.push(routes.createProposal);
-  }, 800);
-}
+  function goToCreateProposalPage() {
+    setTimeout(() => {
+      router.push(routes.createProposal);
+    }, 800);
+  }
   return (
     <>
-    <NextSeo
-      title="Proposal"
-      description="Criptic - React Next Web3 NFT Crypto Dashboard Template"
-    />
-    <section className="mx-auto w-full max-w-[1160px] text-sm sm:pt-10 4xl:pt-14">
-      <ParamTab
-        tabMenu={[
-          {
-            title: (
-              <>
-                ALL my DAO's{' '}
-                {totalActiveVote > 0 && (
-                  <span className="ltr:ml-0.5 rtl:mr-0.5 ltr:md:ml-1.5 rtl:md:mr-1.5 ltr:lg:ml-2 rtl:lg:mr-2">
-                    {totalActiveVote}
-                  </span>
-                )}
-              </>
-            ),
-            path: 'active',
-          },
-        ]}
-      >
-        <TabPanel className="focus:outline-none">
-          <VoteList voteStatus={'active'} />
-        </TabPanel>
-        <TabPanel className="focus:outline-none">
-          <>
-            <div className="mb-6 rounded-lg border-2 border-gray-900 bg-white p-5 dark:border-gray-700 dark:bg-light-dark xs:py-6 lg:px-8 lg:py-6">
-              <div className="mb-3 flex flex-col gap-3 xs:mb-4 sm:gap-4 md:flex-row md:items-center md:justify-between">
-                <h3 className="flex items-center gap-4 text-base font-semibold dark:text-gray-100">
-                  <span className="inline-block rounded-3xl bg-gray-900 px-2.5 py-0.5 text-sm font-medium text-white">
-                    Tip
-                  </span>{' '}
-                  Vote gas-free + earn rewards
-                </h3>
-                <div className="flex items-center gap-4 text-gray-900 dark:text-gray-100">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://snapshot.org/#/"
-                    className="inline-flex items-center gap-2 text-gray-900 transition-opacity duration-200 hover:underline hover:opacity-90 dark:text-gray-100"
-                  >
-                    Go to Snapshot <ExportIcon className="h-auto w-3" />
-                  </a>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="#"
-                    className="inline-flex items-center gap-2 text-gray-900 transition-opacity duration-200 hover:underline hover:opacity-90 dark:text-gray-100"
-                  >
-                    Learn more <ExportIcon className="h-auto w-3" />
-                  </a>
+      <NextSeo
+        title="Proposal"
+        description="Criptic - React Next Web3 NFT Crypto Dashboard Template"
+      />
+      <section className="mx-auto w-full max-w-[1160px] text-sm sm:pt-10 4xl:pt-14">
+        <ParamTab
+          tabMenu={[
+            {
+              title: (
+                <>
+                  ALL my DAO's{' '}
+                  {totalActiveVote > 0 && (
+                    <span className="ltr:ml-0.5 rtl:mr-0.5 ltr:md:ml-1.5 rtl:md:mr-1.5 ltr:lg:ml-2 rtl:lg:mr-2">
+                      {totalActiveVote}
+                    </span>
+                  )}
+                </>
+              ),
+              path: 'active',
+            },
+          ]}
+        >
+          <TabPanel className="focus:outline-none">
+            <DaoList />
+          </TabPanel>
+          <TabPanel className="focus:outline-none">
+            <>
+              <div className="mb-6 rounded-lg border-2 border-gray-900 bg-white p-5 dark:border-gray-700 dark:bg-light-dark xs:py-6 lg:px-8 lg:py-6">
+                <div className="mb-3 flex flex-col gap-3 xs:mb-4 sm:gap-4 md:flex-row md:items-center md:justify-between">
+                  <h3 className="flex items-center gap-4 text-base font-semibold dark:text-gray-100">
+                    <span className="inline-block rounded-3xl bg-gray-900 px-2.5 py-0.5 text-sm font-medium text-white">
+                      Tip
+                    </span>{' '}
+                    Vote gas-free + earn rewards
+                  </h3>
+                  <div className="flex items-center gap-4 text-gray-900 dark:text-gray-100">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://snapshot.org/#/"
+                      className="inline-flex items-center gap-2 text-gray-900 transition-opacity duration-200 hover:underline hover:opacity-90 dark:text-gray-100"
+                    >
+                      Go to Snapshot <ExportIcon className="h-auto w-3" />
+                    </a>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="#"
+                      className="inline-flex items-center gap-2 text-gray-900 transition-opacity duration-200 hover:underline hover:opacity-90 dark:text-gray-100"
+                    >
+                      Learn more <ExportIcon className="h-auto w-3" />
+                    </a>
+                  </div>
                 </div>
+                <p className="leading-loose text-gray-600 dark:text-gray-400">
+                  In order to vote on SnapShot, you need to have ptPOOL tokens.
+                  You can obtain them by depositing your token icon POOL into
+                  the POOL Pool . By doing so, you will be eligible to vote
+                  gas-free and have a chance to win a weekly prize.
+                </p>
               </div>
-              <p className="leading-loose text-gray-600 dark:text-gray-400">
-                In order to vote on SnapShot, you need to have ptPOOL tokens.
-                You can obtain them by depositing your token icon POOL into
-                the POOL Pool . By doing so, you will be eligible to vote
-                gas-free and have a chance to win a weekly prize.
-              </p>
-            </div>
-            <VoteList voteStatus={'off-chain'} />
-          </>
-        </TabPanel>
-        <TabPanel className="focus:outline-none">
-          <VoteList voteStatus={'executable'} />
-        </TabPanel>
-        <TabPanel className="focus:outline-none">
-          <VoteList voteStatus={'past'} />
-        </TabPanel>
-      </ParamTab>
-    </section>
-  </>
+            </>
+          </TabPanel>
+        </ParamTab>
+      </section>
+    </>
     // <div className="flex flex-grow">
     //   <div className="mx-auto flex w-full flex-grow flex-col transition-all xl:max-w-[1360px] 4xl:max-w-[1760px]">
     //     <div className="relative mb-5 flex flex-grow items-center justify-center md:pb-7 md:pt-4 ltr:md:left-0 ltr:md:pl-6 rtl:md:right-0 rtl:md:pr-6 lg:fixed lg:mb-0 lg:h-[calc(100%-96px)] lg:w-[calc(100%-492px)] ltr:lg:pl-8 rtl:lg:pr-8 xl:w-[calc(100%-550px)] ltr:xl:pr-12 ltr:xl:pl-[340px] rtl:xl:pl-12 rtl:xl:pr-[340px] ltr:2xl:pl-96 rtl:2xl:pr-96 3xl:w-[calc(100%-632px)] ltr:4xl:pl-0 rtl:4xl:pr-0">
