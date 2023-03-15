@@ -74,5 +74,6 @@ export default function FeaturedCard({ item, className }: FeaturedCardProps) {
         </div>
       )}
     </div>
+    //lll
   );
 }
