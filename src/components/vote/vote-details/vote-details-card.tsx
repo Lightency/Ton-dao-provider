@@ -65,11 +65,12 @@ export default function VoteDetailsCard({ vote }: any) {
                   className="mt-4 w-full xs:mt-6 xs:w-auto md:mt-10"
                   shape="rounded"
                   style={
-                    theme === 'dark'
-                      ? { color: 'white', backgroundColor: 'grey' }
+                    !isConnected
+                      ? theme === 'dark'
+                        ? { color: 'white', backgroundColor: 'grey' }
+                        : { color: 'white', backgroundColor: '#8080804f' }
                       : {}
                   }
-                  color={theme === 'light' ? 'gray' : 'info'}
                   disabled={!isConnected}
                 >
                   Vote Now
