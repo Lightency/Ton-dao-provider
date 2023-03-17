@@ -1,5 +1,5 @@
 import Button from '@/components/ui/button';
-import { WalletContext } from '@/lib/hooks/use-connect';
+import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
 import { Menu } from '@/components/ui/menu';
 import { Transition } from '@/components/ui/transition';
 import ActiveLink from '@/components/ui/links/active-link';
@@ -10,10 +10,12 @@ import { useContext } from 'react';
 
 export default function WalletConnect() {
   const { openModal } = useModal();
-  const { address, disconnectWallet, balance } = useContext(WalletContext);
+  const { isConnected, walletConfig, disconnectWallet } =
+    useContext(WalletTonContext);
+
   return (
     <>
-      {address ? (
+      {isConnected ? (
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-8">
           <div className="relative">
             <Menu>
@@ -48,14 +50,17 @@ export default function WalletConnect() {
                           <span className="text-sm font-medium -tracking-tighter text-gray-600 dark:text-gray-400">
                             Balance
                           </span>
+
                           <span className="rounded-lg bg-gray-100 px-2 py-1 text-sm tracking-tighter dark:bg-gray-800">
-                            {address.slice(0, 6)}
+                            {walletConfig.address.slice(0, 6)}
                             {'...'}
-                            {address.slice(address.length - 6)}
+                            {walletConfig.address.slice(
+                              walletConfig.address.length - 6
+                            )}
                           </span>
                         </div>
                         <div className="mt-3 font-medium uppercase tracking-wider text-gray-900 dark:text-white">
-                          {balance} ETH
+                          {} ETH
                         </div>
                       </div>
                     </Menu.Item>

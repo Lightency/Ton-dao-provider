@@ -16,6 +16,7 @@ import 'swiper/css';
 import '@/assets/css/scrollbar.css';
 import '@/assets/css/globals.css';
 import '@/assets/css/range-slider.css';
+import { WalletTonProvider } from '@/lib/hooks/use-connect-ton';
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -41,13 +42,13 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
             enableSystem={false}
             defaultTheme="light"
           >
-            <WalletProvider>
+            <WalletTonProvider>
               {getLayout(<Component {...pageProps} />)}
               <SettingsButton />
               <SettingsDrawer />
               <ModalsContainer />
               <DrawersContainer />
-            </WalletProvider>
+            </WalletTonProvider>
           </ThemeProvider>
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />

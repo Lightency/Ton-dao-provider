@@ -1,34 +1,19 @@
 import { useModal } from '@/components/modal-views/context';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import QRCode from 'qrcode';
-import { TonhubConnector } from 'ton-x';
+import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
 
 export default function SelectWallet({ ...props }) {
-  const connector = new TonhubConnector({ network: 'mainnet' });
-  const [link, setLink] = useState('');
+  const { link, isConnected, sessionData, walletConfig } =
+    useContext(WalletTonContext);
   const canvasRef = useRef(null);
   const { closeModal } = useModal();
 
   useEffect(() => {
-    const createNewSession = async () => {
-      let session = await connector.createNewSession({
-        name: 'github',
-        url: 'https://cbf0-41-62-205-40.eu.ngrok.io',
-      });
-      // Session ID, Seed and Auth Link
-      const sessionId = session.id;
-      const sessionSeed = session.seed;
-      const sessionLink = session.link;
-      setLink(sessionLink);
-      console.log(
-        sessionId,
-        sessionSeed,
-        sessionLink,
-        connector.getSessionState(sessionId)
-      );
-    };
-    createNewSession();
-  }, []);
+    if (isConnected) {
+      closeModal();
+    }
+  }, [isConnected]);
 
   useEffect(() => {
     if (link && canvasRef) {

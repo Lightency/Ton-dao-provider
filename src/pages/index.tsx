@@ -22,6 +22,7 @@ import TransactionTable from '@/components/transaction/transaction-table';
 import TopCurrencyTable from '@/components/top-currency/currency-table';
 import OverviewChart from '@/components/ui/chats/overview-chart';
 import TopPools from '@/components/ui/top-pools';
+import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -32,7 +33,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const HomePage: NextPageWithLayout<
   InferGetStaticPropsType<typeof getStaticProps>
 > = () => {
-  const { address, disconnectWallet, balance } = useContext(WalletContext);
+  const { isConnected } = useContext(WalletTonContext);
 
   const router = useRouter();
   const { totalVote: totalActiveVote } = getVotesByStatus('active');
@@ -94,7 +95,7 @@ const HomePage: NextPageWithLayout<
       />
 
       <section className="mx-auto w-full max-w-[1160px] text-sm sm:pt-10 4xl:pt-14">
-        {address ? (
+        {isConnected ? (
           <div className="shrink-0">
             <Button
               shape="rounded"
