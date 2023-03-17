@@ -10,7 +10,7 @@ import { useContext } from 'react';
 
 export default function WalletConnect() {
   const { openModal } = useModal();
-  const { isConnected, walletConfig, disconnectWallet } =
+  const { isConnected, walletConfig, balance, disconnectWallet } =
     useContext(WalletTonContext);
 
   return (
@@ -60,7 +60,7 @@ export default function WalletConnect() {
                           </span>
                         </div>
                         <div className="mt-3 font-medium uppercase tracking-wider text-gray-900 dark:text-white">
-                          {} ETH
+                          {balance} ETH
                         </div>
                       </div>
                     </Menu.Item>

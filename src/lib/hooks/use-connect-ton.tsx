@@ -4,6 +4,7 @@ import {
   TonhubSessionAwaited,
   TonhubWalletConfig,
 } from 'ton-x';
+import TonWeb from 'tonweb';
 
 export const WalletTonContext = createContext<any>({});
 
@@ -14,6 +15,7 @@ export const WalletTonProvider = ({ children }: { children: ReactNode }) => {
   const [sessionData, setSessionData] = useState<any | undefined>(undefined);
   const [walletConfig, setWalletConfig] = useState<any>();
   const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [balance, setBalance] = useState<any>();
 
   useEffect(() => {
     const createNewSession = async () => {
@@ -66,6 +68,17 @@ export const WalletTonProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [sessionData]);
 
+  useEffect(() => {
+    const getBalance = async () => {
+      const tonweb = new TonWeb();
+      const balance = await tonweb.getBalance(walletConfig.address);
+      setBalance(balance);
+    };
+    if (walletConfig) {
+      getBalance();
+    }
+  }, [walletConfig]);
+
   const connectToWallet = () => {};
   const disconnectWallet = () => {};
 
@@ -76,6 +89,7 @@ export const WalletTonProvider = ({ children }: { children: ReactNode }) => {
         walletConfig,
         sessionData,
         link,
+        balance,
         connectToWallet,
         disconnectWallet,
       }}
