@@ -15,6 +15,7 @@
     "@hookform/resolvers": "^2.9.8",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.7",
+    "@types/qrcode": "^1.5.0",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
     "date-fns": "^2.29.3",
@@ -32,6 +33,7 @@
     "next-themes": "^0.2.1",
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-react": "^0.3.0",
+    "qrcode": "^1.5.1",
     "rc-slider": "^10.0.1",
     "react": "18.2.0",
     "react-countdown": "^2.3.2",
@@ -45,6 +47,7 @@
     "recharts": "2.1.12",
     "swiper": "^8.4.2",
     "tiny-invariant": "^1.2.0",
+    "ton-x": "^2.1.0",
     "uuid": "^9.0.0",
     "web3modal": "^1.9.9",
     "yup": "^0.32.11"

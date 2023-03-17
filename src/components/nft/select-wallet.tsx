@@ -1,15 +1,46 @@
-import Image from '@/components/ui/image';
-import metamaskLogo from '@/assets/images/metamask.svg';
-import { WalletContext } from '@/lib/hooks/use-connect';
 import { useModal } from '@/components/modal-views/context';
-import { useContext, useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import QRCode from 'qrcode';
+import { TonhubConnector } from 'ton-x';
 
 export default function SelectWallet({ ...props }) {
-  const { address, connectToWallet, error } = useContext(WalletContext);
+  const connector = new TonhubConnector({ network: 'mainnet' });
+  const [link, setLink] = useState('');
+  const canvasRef = useRef(null);
   const { closeModal } = useModal();
+
   useEffect(() => {
-    if (address) closeModal();
-  }, [address, closeModal]);
+    const createNewSession = async () => {
+      let session = await connector.createNewSession({
+        name: 'github',
+        url: 'https://cbf0-41-62-205-40.eu.ngrok.io',
+      });
+      // Session ID, Seed and Auth Link
+      const sessionId = session.id;
+      const sessionSeed = session.seed;
+      const sessionLink = session.link;
+      setLink(sessionLink);
+      console.log(
+        sessionId,
+        sessionSeed,
+        sessionLink,
+        connector.getSessionState(sessionId)
+      );
+    };
+    createNewSession();
+  }, []);
+
+  useEffect(() => {
+    if (link && canvasRef) {
+      QRCode.toCanvas(
+        canvasRef.current,
+        // QR code doesn't work with an empty string
+        // so we are using a blank space as a fallback
+        link || ' ',
+        (error: any) => error && console.error(error)
+      );
+    }
+  }, [link]);
 
   return (
     <div
@@ -19,27 +50,25 @@ export default function SelectWallet({ ...props }) {
       <h2 className="mb-4 text-center text-2xl font-medium uppercase text-gray-900 dark:text-white">
         Connect Wallet
       </h2>
-      <p className="text-center text-sm leading-loose tracking-tight text-gray-600 dark:text-gray-400">
-        By connecting your wallet, you agree to our Terms of Service and our
-        Privacy Policy.
-      </p>
-
       <div
-        className="mt-12 flex h-14 w-full cursor-pointer items-center justify-between rounded-lg bg-gradient-to-l from-[#ffdc24] to-[#ff5c00] px-4 text-base text-white transition-all hover:-translate-y-0.5"
-        onClick={connectToWallet}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
       >
-        <span>MetaMask</span>
-        <span className="h-auto w-9">
-          <Image src={metamaskLogo} alt="metamask" />
-        </span>
+        {' '}
+        <span>Scan this QR code with Tonhub</span>
+        {link && <canvas ref={canvasRef} />}
       </div>
-
-      {error && (
-        <p className="mt-3 text-center text-xs text-red-500">
-          Please install Metamask plugin in your browser in order to connect
-          wallet.
-        </p>
-      )}
+      <div className="mt-12 flex h-14 w-full cursor-pointer items-center justify-between rounded-lg bg-gradient-to-l from-[#ffdc24] to-[#ff5c00] px-4 text-base text-white transition-all hover:-translate-y-0.5">
+        {link && (
+          <a target="_blank" href={link} rel="noreferrer">
+            Connect
+          </a>
+        )}
+      </div>
     </div>
   );
 }
