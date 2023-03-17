@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import type { NextPageWithLayout } from '@/types';
 import cn from 'classnames';
 import { NextSeo } from 'next-seo';
@@ -26,6 +26,9 @@ import Avatar from '@/components/ui/avatar';
 //images
 import AuthorImage from '@/assets/images/author.jpg';
 import NFT1 from '@/assets/images/nft/nft-1.jpg';
+import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
+import { useModal } from '@/components/modal-views/context';
+import SelectWallet from '@/components/nft/select-wallet';
 
 const PriceOptions = [
   {
@@ -98,9 +101,14 @@ const CreateNFTPage: NextPageWithLayout = () => {
   let [unlocked, setUnlocked] = useState(false);
   let [priceType, setPriceType] = useState('fixed');
   let [blockchain, setBlockChain] = useState(BlockchainOptions[0]);
+  const { isConnected, walletConfig, balance, disconnectWallet } = useContext(WalletTonContext);
+  const { openModal } = useModal();
 
   return (
     <>
+      {isConnected ? (
+    <>
+
       <NextSeo
         title="Create NFT"
         description="Criptic - React Next Web3 NFT Crypto Dashboard Template"
@@ -263,7 +271,10 @@ const CreateNFTPage: NextPageWithLayout = () => {
 
         <Button shape="rounded">CREATE</Button>
       </div>
-    </>
+      </>
+      ) : (<>
+      <SelectWallet /></>)
+                        }</>
   );
 };
 

@@ -75,11 +75,11 @@ export const menuItems = [
     icon: <DiskIcon />,
     href: routes.nftDetails,
   },
-  {
-    name: 'Dao Details',
-    icon: <ProfileIcon />,
-    href: routes.profile,
-  },
+  // {
+  //   name: 'Dao Details',
+  //   icon: <ProfileIcon />,
+  //   href: routes.profile,
+  // },
   // {
   //   name: 'Create proposal',
   //   href: routes.createProposal,

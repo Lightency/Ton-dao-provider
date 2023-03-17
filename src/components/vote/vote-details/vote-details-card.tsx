@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dayjs from 'dayjs';
 import cn from 'classnames';
@@ -11,8 +11,10 @@ import VotePoll from '@/components/vote/vote-details/vote-poll';
 import VoteActions from '@/components/vote/vote-details/vote-actions';
 import VoterTable from '@/components/vote/vote-details/voter-table';
 import { fadeInBottom } from '@/lib/framer-motion/fade-in-bottom';
+import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
 
 function VoteActionButton() {
+
   return (
     <div className="mt-4 flex items-center gap-3 xs:mt-6 xs:inline-flex md:mt-10">
       <Button shape="rounded" color="success" className="flex-1 xs:flex-auto">
@@ -28,6 +30,8 @@ function VoteActionButton() {
 // FIXME: need to add vote type
 export default function VoteDetailsCard({ vote }: any) {
   let [isExpand, setIsExpand] = useState(false);
+  const { isConnected, walletConfig, balance, disconnectWallet } =
+  useContext(WalletTonContext);
   return (
     <motion.div
       layout
@@ -60,7 +64,7 @@ export default function VoteDetailsCard({ vote }: any) {
                   onClick={() => setIsExpand(!isExpand)}
                   className="mt-4 w-full xs:mt-6 xs:w-auto md:mt-10"
                   shape="rounded"
-                >
+                  disabled = {!isConnected}>
                   Vote Now
                 </Button>
               ) : (

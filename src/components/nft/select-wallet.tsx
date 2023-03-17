@@ -45,6 +45,7 @@ export default function SelectWallet({ ...props }) {
       >
         {' '}
         <span>Scan this QR code with Tonhub</span>
+        <br></br>
         {link && <canvas ref={canvasRef} />}
       </div>
       <div className="mt-12 flex h-14 w-full cursor-pointer items-center justify-between rounded-lg bg-gradient-to-l from-[#ffdc24] to-[#ff5c00] px-4 text-base text-white transition-all hover:-translate-y-0.5">
