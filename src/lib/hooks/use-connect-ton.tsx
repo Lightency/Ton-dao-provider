@@ -26,7 +26,7 @@ export const WalletTonProvider = ({ children }: { children: ReactNode }) => {
       setSessionData(session);
     };
     createNewSession();
-  }, []);
+  }, [isConnected]);
 
   useEffect(() => {
     const awaitSession = async () => {
@@ -64,10 +64,12 @@ export const WalletTonProvider = ({ children }: { children: ReactNode }) => {
     if (sessionData) {
       awaitSession();
     }
-  }, [sessionData]);
+  }, [sessionData,isConnected]);
 
   const connectToWallet = () => {};
-  const disconnectWallet = () => {};
+  const disconnectWallet = () => {
+    setIsConnected(false)
+  };
 
   return (
     <WalletTonContext.Provider
