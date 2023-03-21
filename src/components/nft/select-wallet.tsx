@@ -48,7 +48,10 @@ export default function SelectWallet({ ...props }) {
         <br></br>
         {link && <canvas ref={canvasRef} />}
       </div>
-      <div className="mt-12 flex h-14 w-full cursor-pointer items-center justify-between rounded-lg bg-gradient-to-l from-[#ffdc24] to-[#ff5c00] px-4 text-base text-white transition-all hover:-translate-y-0.5">
+      <div
+        style={{ justifyContent: 'center' }}
+        className="mt-12 flex h-14 w-full cursor-pointer items-center justify-between rounded-lg bg-gradient-to-l from-[#2563eb63] to-[#2a52be] px-4 text-base text-white transition-all hover:-translate-y-0.5"
+      >
         {link && (
           <a target="_blank" href={link} rel="noreferrer">
             Connect
