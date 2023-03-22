@@ -17,6 +17,8 @@ import '@/assets/css/scrollbar.css';
 import '@/assets/css/globals.css';
 import '@/assets/css/range-slider.css';
 import { WalletTonProvider } from '@/lib/hooks/use-connect-ton';
+import { Provider } from 'react-redux';
+import store from '../app/store';
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -43,11 +45,13 @@ function CustomApp({ Component, pageProps }: AppPropsWithLayout) {
             defaultTheme="light"
           >
             <WalletTonProvider>
-              {getLayout(<Component {...pageProps} />)}
-              <SettingsButton />
-              <SettingsDrawer />
-              <ModalsContainer />
-              <DrawersContainer />
+              <Provider store={store}>
+                {getLayout(<Component {...pageProps} />)}
+                <SettingsButton />
+                <SettingsDrawer />
+                <ModalsContainer />
+                <DrawersContainer />
+              </Provider>
             </WalletTonProvider>
           </ThemeProvider>
         </Hydrate>

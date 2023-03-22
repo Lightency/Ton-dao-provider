@@ -1,5 +1,5 @@
 import type { NextPageWithLayout } from '@/types';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextSeo } from 'next-seo';
 import routes from '@/config/routes';
@@ -13,19 +13,20 @@ import Textarea from '@/components/ui/forms/textarea';
 import Listbox, { ListboxOption } from '@/components/ui/list-box';
 // static data
 import votePool from '@/assets/images/vote-pool.svg';
+import { WalletContext } from '@/lib/hooks/use-connect';
+import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
+import { useSelector } from 'react-redux';
+import { AddProposalFunction } from '@/reducers/proposal';
+import { useDispatch } from 'react-redux';
 
 const actionOptions = [
   {
-    name: 'Custom Contact',
-    value: 'custom_contact',
+    name: 'Propose Transfer',
+    value: 'Propose_Transfer',
   },
   {
-    name: 'CRIPTIC Token',
-    value: 'criptic_token',
-  },
-  {
-    name: 'Reserve',
-    value: 'reserve',
+    name: 'Propose to Add Member',
+    value: 'Propose_Member',
   },
 ];
 
@@ -179,20 +180,43 @@ function CripticTokenAction({
     </>
   );
 }
-
+function DaoAction({
+  selectedOption,
+  onChange,
+}: {
+  selectedOption: ListboxOption;
+  onChange: React.Dispatch<React.SetStateAction<ListboxOption>>;
+}) {
+  return (
+    <>
+      <Listbox
+        className="w-full sm:w-80"
+        options={cripticTokenOptions}
+        selectedOption={selectedOption}
+        onChange={onChange}
+      />
+    </>
+  );
+}
 function ActionFields() {
   let [actionType, setActionType] = useState(actionOptions[0]);
   let [reserveAction, setReserveAction] = useState(reserveOptions[0]);
   let [cripticTokenAction, setCripticTokenAction] = useState(
     cripticTokenOptions[0]
   );
+  // const { address, disconnectWallet, balance } = useContext(WalletContext);
+  const { isConnected, walletConfig, balance, disconnectWallet } =
+    useContext(WalletTonContext);
   return (
     <div className="">
-      <div className="group mb-4 rounded-md bg-gray-100/90 p-5 pt-3 dark:bg-dark/60 xs:p-6 xs:pb-8">
-        <div className="-mr-2 mb-3 flex items-center justify-between">
-          <h3 className="text-base font-medium dark:text-gray-100">
-            Action #1
-          </h3>
+      <div className="group rounded-md bg-gray-100/90 p-5 pt-3 dark:bg-dark/60 xs:p-6 xs:pb-8">
+        <h1>Dao Name</h1>
+        <DaoAction
+          selectedOption={cripticTokenAction}
+          onChange={setCripticTokenAction}
+        />
+        <div className="-mr-2  flex items-center justify-between">
+          <h1> Proposal Type </h1>
           <Button
             type="button"
             size="mini"
@@ -200,30 +224,76 @@ function ActionFields() {
             variant="transparent"
             className="opacity-0 group-hover:opacity-100"
           >
-            <CloseIcon className="h-auto w-[11px] xs:w-3" />
+            {/* <CloseIcon className="h-auto w-[11px] xs:w-3" /> */}
           </Button>
         </div>
         <>
           <Listbox
-            className="w-full sm:w-80"
+            className="mb-2 w-full sm:w-80"
             options={actionOptions}
             selectedOption={actionType}
             onChange={setActionType}
           />
-          {actionType.value === 'custom_contact' && (
-            <Input
-              className="mt-4 ltr:xs:ml-6 rtl:xs:mr-6 ltr:sm:ml-12 rtl:sm:mr-12"
-              useUppercaseLabel={false}
-              placeholder="Enter contact address 0x1f9840a85..."
-            />
+          {actionType.value === 'Propose_Transfer' && (
+            <>
+              {/* <Input
+                className="mt-4 ltr:xs:ml-6 rtl:xs:mr-6 ltr:sm:ml-12 rtl:sm:mr-12"
+                useUppercaseLabel={false}
+                placeholder="Enter contact address 0x1f9840a85..."
+              /> */}
+              {walletConfig && (
+                <>
+                  <div className="mb-2">
+                    <h1>Proposer</h1>
+
+                    <Input placeholder={walletConfig.address} />
+                  </div>
+                </>
+              )}
+              <div className="mb-2">
+                <h1>Description </h1>
+                <Textarea
+                  placeholder="Add the proposal details here"
+                  inputClassName="md:h-32 xl:h-36"
+                />
+              </div>
+              <div className="mb-2">
+                <h1>Amount</h1>
+
+                <Input placeholder="Enter your Amount" />
+              </div>
+              <div className="mb-2">
+                <h1>Target</h1>
+
+                <Input placeholder="Target" />
+              </div>
+            </>
           )}
-          {actionType.value === 'criptic_token' && (
-            <div className="rtl:xs:mlr6 rtl:sm:mlr12 mt-4 ltr:xs:ml-6 ltr:sm:ml-12">
-              <CripticTokenAction
-                selectedOption={cripticTokenAction}
-                onChange={setCripticTokenAction}
-              />
-            </div>
+          {actionType.value === 'Propose_Member' && (
+            <>
+              <div className="mb-2">
+                {walletConfig && (
+                  <>
+                    <div className="mb-2">
+                      <h1>Proposer</h1>
+
+                      <Input placeholder={walletConfig.address} />
+                    </div>
+                  </>
+                )}
+                <h1>Description</h1>
+                <Textarea
+                  placeholder="Add the proposal details here"
+                  inputClassName="md:h-32 xl:h-36"
+                />
+              </div>
+
+              <div className="mb-2">
+                <h1>Target</h1>
+
+                <Input placeholder="Target" />
+              </div>
+            </>
           )}
           {actionType.value === 'reserve' && (
             <div className="mt-4 ltr:xs:ml-6 rtl:xs:mr-6 ltr:sm:ml-12 rtl:sm:mr-12">
@@ -237,20 +307,24 @@ function ActionFields() {
           )}
         </>
       </div>
-      <Button variant="ghost" className="mt-2 xs:mt-3">
-        Add another action
-      </Button>
     </div>
   );
 }
-
+const AddNewProposalAction = async (dispatch: any) => {
+  return await dispatch(AddProposalFunction({})).unwrap();
+};
 const CreateProposalPage: NextPageWithLayout = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   function goToAllProposalPage() {
     setTimeout(() => {
       router.push(routes.home);
     }, 800);
   }
+  useEffect(() => {
+    AddNewProposalAction(dispatch);
+  }, []);
   return (
     <>
       <NextSeo
@@ -298,39 +372,7 @@ const CreateProposalPage: NextPageWithLayout = () => {
           Create a new proposal
         </h2>
         <div className="mb-6 rounded-lg bg-white p-5 shadow-card transition-shadow duration-200 hover:shadow-large dark:bg-light-dark xs:p-6 xs:pb-8">
-          <h3 className="mb-2 text-base font-medium dark:text-gray-100 xl:text-lg">
-            Actions
-          </h3>
-          <p className="mb-5 leading-[1.8] dark:text-gray-300">
-            Enter the on-chain actions this proposal should take. Actions are
-            executed in the order laid out here (ie. Action #1 fires, then
-            Action #2, etc.)
-          </p>
           <ActionFields />
-        </div>
-        <div className="mb-6 rounded-lg bg-white p-5 shadow-card transition-shadow duration-200 hover:shadow-large dark:bg-light-dark xs:p-6 xs:pb-8">
-          <h3 className="mb-2 text-base font-medium dark:text-gray-100 xl:text-lg">
-            Title
-          </h3>
-          <p className="mb-5 leading-[1.8] dark:text-gray-300">
-            Your title introduces your proposal to the voters. Make sure it is
-            clear and to the point.
-          </p>
-          <Input placeholder="Enter title of your proposal" />
-        </div>
-        <div className="mb-6 rounded-lg bg-white p-5 shadow-card transition-shadow duration-200 hover:shadow-large dark:bg-light-dark xs:p-6 xs:pb-8">
-          <h3 className="mb-2 text-base font-medium dark:text-gray-100 xl:text-lg">
-            Description
-          </h3>
-          <p className="mb-5 leading-[1.8] dark:text-gray-300">
-            Your description should present in full detail what the actions of
-            the proposal will do. This is where voters will educate themselves
-            on what they are voting on.
-          </p>
-          <Textarea
-            placeholder="Add the proposal details here"
-            inputClassName="md:h-32 xl:h-36"
-          />
         </div>
         <div className="mt-6">
           <Button
