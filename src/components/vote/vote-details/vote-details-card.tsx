@@ -46,10 +46,7 @@ export default function VoteDetailsCard({ vote }: any) {
         className="flex w-full flex-col-reverse justify-between md:grid md:grid-cols-3"
       >
         <div className="self-start md:col-span-2">
-          <h3
-            onClick={() => setIsExpand(!isExpand)}
-            className="cursor-pointer text-base font-medium leading-normal dark:text-gray-100 2xl:text-lg"
-          >
+          <h3 className="cursor-pointer text-base font-medium leading-normal dark:text-gray-100 2xl:text-lg">
             {vote.title}
           </h3>
           <p className="mt-2 text-gray-600 dark:text-gray-400">
