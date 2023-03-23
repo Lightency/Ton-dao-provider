@@ -13,6 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.2",
     "@hookform/resolvers": "^2.9.8",
+    "@orbs-network/ton-access": "^2.3.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@tailwindcss/forms": "^0.5.3",
     "@tailwindcss/typography": "^0.5.7",
@@ -36,9 +37,7 @@
     "overlayscrollbars-react": "^0.3.0",
     "qrcode": "^1.5.1",
     "rc-slider": "^10.0.1",
-    "react": "18.2.0",
     "react-countdown": "^2.3.2",
-    "react-dom": "18.2.0",
     "react-dropzone": "^14.2.2",
     "react-hook-form": "^7.36.0",
     "react-query": "^3.39.2",
@@ -49,12 +48,18 @@
     "recharts": "2.1.12",
     "swiper": "^8.4.2",
     "tiny-invariant": "^1.2.0",
-    "ton-core": "^0.48.0",
     "ton-x": "^2.1.0",
     "tonweb": "^0.0.60",
     "uuid": "^9.0.0",
     "web3modal": "^1.9.9",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "@tonconnect/ui-react": "^1.0.0-beta.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "ton": "^13.4.1",
+    "ton-core": "^0.48.0",
+    "ton-crypto": "^3.2.0",
+    "vite-plugin-node-polyfills": "^0.7.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.1",

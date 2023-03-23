@@ -10,7 +10,7 @@ import { ExportIcon } from '@/components/icons/export-icon';
 import ParamTab from '@/components/ui/param-tab';
 import Button from '@/components/ui/button/button';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { WalletContext } from '@/lib/hooks/use-connect';
 import CoinSlider from '@/components/ui/coin-card';
 import { coinSlideData } from '@/data/static/coin-slide-data';
@@ -23,6 +23,7 @@ import TopCurrencyTable from '@/components/top-currency/currency-table';
 import OverviewChart from '@/components/ui/chats/overview-chart';
 import TopPools from '@/components/ui/top-pools';
 import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
+import { useFactoryContract } from '@/hooks/useDaosContract';
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -34,7 +35,10 @@ const HomePage: NextPageWithLayout<
   InferGetStaticPropsType<typeof getStaticProps>
 > = () => {
   const { isConnected } = useContext(WalletTonContext);
-
+  const { value, address } = useFactoryContract();
+  useEffect(() => {
+    console.log(value, address, 'addre');
+  }, [value, address]);
   const router = useRouter();
   const { totalVote: totalActiveVote } = getVotesByStatus('active');
 
