@@ -64,7 +64,7 @@ export default function ParamTab({ tabMenu, children }: ParamTabTypes) {
               className="flex w-full items-center justify-between py-2.5 px-4 uppercase text-gray-400 dark:text-gray-300 sm:px-5 sm:py-3.5"
             >
               <span className="font-medium text-gray-900 dark:text-gray-100">
-                {tabMenu[selectedTabIndex].title}
+                {tabMenu[selectedTabIndex]?.title}
               </span>
               <ChevronDown className="h-auto w-3.5" />
             </button>

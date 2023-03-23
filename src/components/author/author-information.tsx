@@ -14,28 +14,32 @@ export default function AuthorInformation({
     <div className={`${className}`}>
       {/* Bio */}
       <div className="border-y border-dashed border-gray-200 py-5 dark:border-gray-700 xl:py-6">
+        <div className="pb-4 text-center  rtl:md:text-right">
+          {/* Name */}
+          <h2 className="text-xl font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl">
+            {data?.name}
+          </h2>
+        </div>
         <div className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
-          Bio
+          purpose
         </div>
         <div className="text-sm leading-6 tracking-tighter text-gray-600 dark:text-gray-400">
-          {data?.bio}
+          {data?.dao_purpose}
         </div>
       </div>
 
       {/* Social */}
       <div className="border-y border-dashed border-gray-200 py-5 dark:border-gray-700 xl:py-6">
         <div className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
-          Social
+          members
         </div>
-        {data?.socials?.map((social: any) => (
-          <AnchorLink
-            href={social?.link}
+        {data?.members?.map((member: any) => (
+          <div
             className="mb-2 flex items-center gap-x-2 text-sm tracking-tight text-gray-600 transition last:mb-0 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
-            key={social?.id}
+            key={member?.id}
           >
-            {social?.icon}
-            {social?.title}
-          </AnchorLink>
+            {member?.name}
+          </div>
         ))}
       </div>
 
