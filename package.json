@@ -49,6 +49,7 @@
     "recharts": "2.1.12",
     "swiper": "^8.4.2",
     "tiny-invariant": "^1.2.0",
+    "ton-core": "^0.48.0",
     "ton-x": "^2.1.0",
     "tonweb": "^0.0.60",
     "uuid": "^9.0.0",
