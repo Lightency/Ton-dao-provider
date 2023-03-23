@@ -25,10 +25,11 @@ export const authorData = {
     thumbnail: AuthorImage,
     original: AuthorImage,
   },
-  bio: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.',
+  dao_purpose:
+    'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.',
   following: '1,504',
   followers: '1,845',
-  followed_by: [
+  members: [
     {
       id: 1,
       name: 'Thirtythree',

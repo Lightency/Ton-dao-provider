@@ -40,15 +40,7 @@ const AuthorProfilePage: NextPageWithLayout<
         description="Criptic - React Next Web3 NFT Crypto Dashboard Template"
       />
       {/* Profile Cover Image */}
-      <div className="relative h-36 w-full overflow-hidden rounded-lg sm:h-44 md:h-64 xl:h-80 2xl:h-96 3xl:h-[448px]">
-        <Image
-          src={authorData?.cover_image?.thumbnail}
-          placeholder="blur"
-          layout="fill"
-          objectFit="cover"
-          alt="Cover Image"
-        />
-      </div>
+      <div className="relative h-36 w-full overflow-hidden rounded-lg sm:h-44 md:h-64 xl:h-80 2xl:h-96 3xl:h-[100px]"></div>
 
       {/* Profile Container */}
       <div className="mx-auto flex w-full shrink-0 flex-col md:px-4 xl:px-6 3xl:max-w-[1700px] 3xl:px-12">
@@ -82,7 +74,8 @@ const AuthorProfilePage: NextPageWithLayout<
 
               <div>
                 <div className="mb-1.5 text-lg font-medium tracking-tighter text-gray-900 dark:text-white">
-3.3                </div>
+                  3.3{' '}
+                </div>
                 <div className="text-sm tracking-tighter text-gray-600 dark:text-gray-400">
                   DAO Version
                 </div>
@@ -91,10 +84,10 @@ const AuthorProfilePage: NextPageWithLayout<
 
             {/* Followed by */}
             {/* <div className="border-y border-dashed border-gray-200 py-5 text-center dark:border-gray-700 ltr:md:text-left rtl:md:text-right xl:py-6"> */}
-              {/* <div className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
+            {/* <div className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
                 Followed by
               </div> */}
-              {/* <div className="flex justify-center md:justify-start">
+            {/* <div className="flex justify-center md:justify-start">
                 {authorData?.followed_by?.map((item) => (
                   <AnchorLink
                     key={item?.id}
@@ -113,7 +106,7 @@ const AuthorProfilePage: NextPageWithLayout<
                 ))}
               </div> */}
 
-              {/* <div className="mt-4">
+            {/* <div className="mt-4">
                 <AnchorLink
                   href="/"
                   className="text-sm tracking-tighter text-gray-600 transition hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
