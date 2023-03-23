@@ -24,6 +24,7 @@ import OverviewChart from '@/components/ui/chats/overview-chart';
 import TopPools from '@/components/ui/top-pools';
 import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
 import { useFactoryContract } from '@/hooks/useDaosContract';
+import { useDaoContract } from '@/hooks/useDaoContract';
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -35,7 +36,11 @@ const HomePage: NextPageWithLayout<
   InferGetStaticPropsType<typeof getStaticProps>
 > = () => {
   const { isConnected } = useContext(WalletTonContext);
-  const { value, address } = useFactoryContract();
+  //const { value, address } = useFactoryContract();
+  const { value, address } = useDaoContract(
+    'EQDhOnvBUDiG4_8NZc1rPed_5IoIaofFlZrq1MJvGtn2H1Zf'
+  );
+
   useEffect(() => {
     console.log(value, address, 'addre');
   }, [value, address]);
