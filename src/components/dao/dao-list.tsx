@@ -2,16 +2,19 @@
 import { motion, AnimateSharedLayout } from 'framer-motion';
 import DaoDetailsCard from '@/components/dao/dao-details/dao-details-card';
 import { ExportIcon } from '@/components/icons/export-icon';
-// static data
-import { daos } from '@/data/static/dao-data';
+import { useFactoryContract } from '@/hooks/useDaosContract';
 
 export default function DaoList() {
+  const { value, address } = useFactoryContract();
   return (
     <AnimateSharedLayout>
       <motion.div layout initial={{ borderRadius: 16 }} className="rounded-2xl">
-        {daos.length > 0 ? (
-          daos.map((dao: any) => (
-            <DaoDetailsCard key={`${dao.title}-key-${dao.id}`} dao={dao} />
+        {value && value.length > 0 ? (
+          value.map((daoAddress: any) => (
+            <DaoDetailsCard
+              key={`${daoAddress}-key-${daoAddress}`}
+              daoAddress={daoAddress}
+            />
           ))
         ) : (
           <div className="flex flex-col items-center justify-center rounded-lg bg-white px-4 py-16 text-center shadow-card dark:bg-light-dark xs:px-6 md:px-5 md:py-24">
