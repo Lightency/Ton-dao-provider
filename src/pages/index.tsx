@@ -36,14 +36,17 @@ const HomePage: NextPageWithLayout<
   InferGetStaticPropsType<typeof getStaticProps>
 > = () => {
   const { isConnected } = useContext(WalletTonContext);
-  //const { value, address } = useFactoryContract();
-  const { value, address } = useDaoContract(
+  const { value, address } = useFactoryContract();
+  const { dao } = useDaoContract(
     'EQDhOnvBUDiG4_8NZc1rPed_5IoIaofFlZrq1MJvGtn2H1Zf'
   );
 
   useEffect(() => {
     console.log(value, address, 'addre');
   }, [value, address]);
+  useEffect(() => {
+    console.log(dao, 'dao details');
+  }, [dao]);
   const router = useRouter();
   const { totalVote: totalActiveVote } = getVotesByStatus('active');
 
