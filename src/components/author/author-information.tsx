@@ -1,7 +1,3 @@
-import Button from '@/components/ui/button';
-import AnchorLink from '@/components/ui/links/anchor-link';
-import { InfoIcon } from '@/components/icons/info-icon';
-
 interface AuthorInformationProps {
   data: any;
   className?: string;
@@ -14,17 +10,11 @@ export default function AuthorInformation({
     <div className={`${className}`}>
       {/* Bio */}
       <div className="border-y border-dashed border-gray-200 py-5 dark:border-gray-700 xl:py-6">
-        <div className="pb-4 text-center  rtl:md:text-right">
-          {/* Name */}
-          <h2 className="text-xl font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl">
-            {data?.name}
-          </h2>
-        </div>
         <div className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
           purpose
         </div>
         <div className="text-sm leading-6 tracking-tighter text-gray-600 dark:text-gray-400">
-          {data?.dao_purpose}
+          {data?.purpose}
         </div>
       </div>
 
@@ -33,47 +23,22 @@ export default function AuthorInformation({
         <div className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
           members
         </div>
-        {data?.members?.map((member: any) => (
+        {data?.membersList?.map((member: any) => (
           <div
             className="mb-2 flex items-center gap-x-2 text-sm tracking-tight text-gray-600 transition last:mb-0 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
-            key={member?.id}
+            key={member}
           >
-            {member?.name}
+            {member}
           </div>
-        ))}
-      </div>
-
-      {/* Links */}
-      <div className="border-y border-dashed border-gray-200 py-5 dark:border-gray-700 xl:py-6">
-        <div className="mb-2 text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
-          Links
-        </div>
-        {data?.links?.map((item: any) => (
-          <AnchorLink
-            href={item?.link}
-            className="mb-2 flex items-center text-sm tracking-tight text-gray-600 transition last:mb-0 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
-            key={item?.id}
-          >
-            {item?.link}
-          </AnchorLink>
         ))}
       </div>
 
       {/* Join date */}
       <div className="border-y border-dashed border-gray-200 py-5 dark:border-gray-700 xl:py-6">
         <div className="text-sm font-medium uppercase tracking-wider text-gray-900 dark:text-white">
-          Joined {data?.created_at}
+          Joined {data?.creationTime}
         </div>
       </div>
-      {/* Report button */}
-      <Button
-        color="gray"
-        className="mt-5 h-8 font-normal text-gray-600 hover:text-gray-900 dark:bg-gray-600 dark:text-gray-200 dark:hover:text-white md:h-9 md:px-4 lg:mt-6"
-      >
-        <span className="flex items-center gap-2">
-          <InfoIcon className="h-3 w-3" /> report
-        </span>
-      </Button>
     </div>
   );
 }

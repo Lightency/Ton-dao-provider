@@ -11,7 +11,10 @@ export default function DaoDetailsCard({ daoAddress }: any) {
   const router = useRouter();
   function goToDAODetailsPage() {
     setTimeout(() => {
-      router.push(routes.profile);
+      router.push({
+        pathname: routes.profile,
+        query: { address: daoAddress },
+      });
     }, 800);
   }
   const { dao } = useDaoContract(daoAddress);
