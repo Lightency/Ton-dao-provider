@@ -2,13 +2,7 @@ import { useEffect, useState } from 'react';
 import { Daos } from '../contracts/Daos';
 import { useTonClient } from './useTonClient';
 import { useAsyncInitialize } from './useAsyncInitialize';
-import {
-  Address,
-  Cell,
-  OpenedContract,
-  Dictionary,
-  DictionaryValue,
-} from 'ton-core';
+import { Address, OpenedContract, Dictionary, DictionaryValue } from 'ton-core';
 
 const ListValue: DictionaryValue<string> = {
   serialize(src: string, builder) {
@@ -26,7 +20,7 @@ export function useFactoryContract() {
   const factoryContract = useAsyncInitialize(async () => {
     if (!client) return;
     const contract = new Daos(
-      Address.parse('EQAig-Xu8d5ZBMLMvsKB8cyGM9DfpMt04VpoIjNxSWzElVoH') // replace with your address from tutorial 2 step 8
+      Address.parse('EQCm2KaWFAWN-v22vYhZW_TTaks-v_VQ5FMay9rv8aHQMgqR')
     );
     return client.open(contract) as OpenedContract<Daos>;
   }, [client]);

@@ -2,7 +2,6 @@ import type { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { NextSeo } from 'next-seo';
 import type { NextPageWithLayout } from '@/types';
 import DashboardLayout from '@/layouts/_dashboard';
-import VoteList from '@/components/vote/vote-list';
 import { TabPanel } from '@/components/ui/tab';
 import { getVotesByStatus } from '@/data/static/vote-data';
 import routes from '@/config/routes';
@@ -11,20 +10,11 @@ import ParamTab from '@/components/ui/param-tab';
 import Button from '@/components/ui/button/button';
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
-import { WalletContext } from '@/lib/hooks/use-connect';
-import CoinSlider from '@/components/ui/coin-card';
-import { coinSlideData } from '@/data/static/coin-slide-data';
-import Avatar from '@/components/ui/avatar';
-import TopupButton from '@/components/ui/topup-button';
-import LiquidityChart from '@/components/ui/chats/liquidity-chart';
-import VolumeChart from '@/components/ui/chats/volume-chart';
-import TransactionTable from '@/components/transaction/transaction-table';
-import TopCurrencyTable from '@/components/top-currency/currency-table';
-import OverviewChart from '@/components/ui/chats/overview-chart';
-import TopPools from '@/components/ui/top-pools';
 import { WalletTonContext } from '@/lib/hooks/use-connect-ton';
 import { useFactoryContract } from '@/hooks/useDaosContract';
 import { useDaoContract } from '@/hooks/useDaoContract';
+import { useProposalContract } from '@/hooks/useProposalContract';
+import DaoList from '@/components/dao/dao-list';
 
 export const getStaticProps: GetStaticProps = async () => {
   return {
@@ -37,16 +27,21 @@ const HomePage: NextPageWithLayout<
 > = () => {
   const { isConnected } = useContext(WalletTonContext);
   const { value, address } = useFactoryContract();
-  const { dao } = useDaoContract(
-    'EQDhOnvBUDiG4_8NZc1rPed_5IoIaofFlZrq1MJvGtn2H1Zf'
-  );
-
+  // const { dao } = useDaoContract(
+  //   'EQDEcABa7v8XrjqaFT9OLxbq80ZxuOpJpNSykqt7avmnbeq-'
+  // );
+  // const { proposal } = useProposalContract(
+  //   "EQCN7RlmT6LNU89fxe9yDO-kkRzgG9Niafu0va0dM3PxnJi_"
+  // );
   useEffect(() => {
     console.log(value, address, 'addre');
   }, [value, address]);
-  useEffect(() => {
-    console.log(dao, 'dao details');
-  }, [dao]);
+  // useEffect(() => {
+  //   console.log(dao, 'dao details');
+  // }, [dao]);
+  // useEffect(() => {
+  //   console.log(proposal, 'proposal details');
+  // }, [proposal]);
   const router = useRouter();
   const { totalVote: totalActiveVote } = getVotesByStatus('active');
 
@@ -59,12 +54,6 @@ const HomePage: NextPageWithLayout<
     <>
       <div className="mt-8 grid gap-6 sm:my-10 md:grid-cols-3">
         <div className="flex h-full flex-col justify-center rounded-lg bg-white p-6 shadow-card dark:bg-light-dark xl:p-8">
-          {/* <Avatar
-              image={AuthorImage}
-              alt="Author"
-              className="mx-auto mb-6"
-              size="lg"
-            /> */}
           <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
             Total Proposal{' '}
           </h3>
@@ -73,26 +62,14 @@ const HomePage: NextPageWithLayout<
           </div>
         </div>
         <div className="flex h-full flex-col justify-center rounded-lg bg-white p-6 shadow-card dark:bg-light-dark xl:p-8">
-          {/* <Avatar
-              image={AuthorImage}
-              alt="Author"
-              className="mx-auto mb-6"
-              size="lg"
-            /> */}
           <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
             Total Dao's{' '}
           </h3>
           <div className="mb-7 text-center font-medium tracking-tighter text-gray-900 dark:text-white xl:text-2xl 3xl:mb-8 3xl:text-[32px]">
-            9{' '}
+            {value ? value.length : 0}{' '}
           </div>
         </div>
         <div className="flex h-full flex-col justify-center rounded-lg bg-white p-6 shadow-card dark:bg-light-dark xl:p-8">
-          {/* <Avatar
-              image={AuthorImage}
-              alt="Author"
-              className="mx-auto mb-6"
-              size="lg"
-            /> */}
           <h3 className="mb-2 text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 3xl:mb-3">
             Users{' '}
           </h3>
@@ -126,10 +103,10 @@ const HomePage: NextPageWithLayout<
             {
               title: (
                 <>
-                  ALL Proposal{' '}
-                  {totalActiveVote > 0 && (
+                  ALL my DAO's{' '}
+                  {value && value.length > 0 && (
                     <span className="ltr:ml-0.5 rtl:mr-0.5 ltr:md:ml-1.5 rtl:md:mr-1.5 ltr:lg:ml-2 rtl:lg:mr-2">
-                      {totalActiveVote}
+                      {value.length}
                     </span>
                   )}
                 </>
@@ -139,7 +116,7 @@ const HomePage: NextPageWithLayout<
           ]}
         >
           <TabPanel className="focus:outline-none">
-            <VoteList voteStatus={'active'} />
+            <DaoList />
           </TabPanel>
           <TabPanel className="focus:outline-none">
             <>
@@ -177,14 +154,7 @@ const HomePage: NextPageWithLayout<
                   gas-free and have a chance to win a weekly prize.
                 </p>
               </div>
-              <VoteList voteStatus={'off-chain'} />
             </>
-          </TabPanel>
-          <TabPanel className="focus:outline-none">
-            <VoteList voteStatus={'executable'} />
-          </TabPanel>
-          <TabPanel className="focus:outline-none">
-            <VoteList voteStatus={'past'} />
           </TabPanel>
         </ParamTab>
       </section>
